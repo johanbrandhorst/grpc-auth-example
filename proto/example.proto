@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package example;
+
+option go_package = "github.com/johanbrandhorst/grpc-auth-example/proto;example";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service UserService {
+  rpc AddUser(User) returns (google.protobuf.Empty);
+  rpc ListUsers(google.protobuf.Empty) returns (stream User);
+  rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty);
+}
+
+enum Role {
+  GUEST = 0;
+  MEMBER = 1;
+  ADMIN = 2;
+}
+
+message User {
+  uint32 id = 1;
+  Role role = 2;
+  google.protobuf.Timestamp create_date = 3;
+}
+
+message UserRole {
+  Role role = 1;
+}
+
+message DeleteUserRequest {
+  uint32 id = 1;
+}
